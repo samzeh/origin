@@ -56,6 +56,11 @@ export function WaitlistInput() {
   const playIdRef = useRef(0);
   const [layer, setLayer] = useState<Layer>("static");
   const [under, setUnder] = useState<Layer | null>(null);
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "saving" | "done" | "error">(
+    "idle",
+  );
+  const [statusMessage, setStatusMessage] = useState("");
 
   const videoFor = useCallback((next: Exclude<Layer, "static">) => {
     if (next === "transition") return transitionRef.current;
@@ -327,10 +332,62 @@ export function WaitlistInput() {
     void playVideo("transition", 0);
   };
 
+  const onSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    if (status === "saving") return;
+
+    const nextEmail = email.trim().toLowerCase();
+    setEmail("");
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nextEmail)) {
+      setStatus("error");
+      setStatusMessage("please enter a valid email :(");
+      return;
+    }
+
+    setStatus("saving");
+    setStatusMessage("");
+
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: nextEmail }),
+      });
+      const result = (await response.json()) as {
+        ok?: boolean;
+        alreadyJoined?: boolean;
+        error?: string;
+      };
+
+      if (result.alreadyJoined || response.status === 409) {
+        setStatus("error");
+        setStatusMessage("you've already registered, see you there ;)");
+        return;
+      }
+
+      if (!response.ok || !result.ok) {
+        setStatus("error");
+        setStatusMessage("please enter a valid email :(");
+        return;
+      }
+
+      setStatus("done");
+      setStatusMessage("thanks! we'll let you know when apps drop :)");
+    } catch {
+      setStatus("error");
+      setStatusMessage("please enter a valid email :(");
+    }
+  };
+
   const isVisible = (name: Layer) => layer === name || under === name;
 
   return (
-    <div className="relative w-full max-w-[720px]">
+    <form
+      className="relative w-full max-w-[720px]"
+      onSubmit={onSubmit}
+      noValidate
+    >
       <Image
         src="/static input.png"
         alt="Input"
@@ -406,13 +463,35 @@ export function WaitlistInput() {
       />
 
       <input
-        type="text"
-        placeholder="join the waitlist"
-        className={`${originFont.className} absolute top-1/2 left-8 right-[28%] z-10 -translate-y-1/2 bg-transparent px-3 py-1 text-sm leading-[1.8] text-black placeholder-gray-500 focus:outline-none sm:left-12 sm:right-[24%] sm:px-4 sm:text-lg md:left-16 md:right-0 md:px-6 md:text-xl`}
+        type="email"
+        name="email"
+        autoComplete="email"
+        value={email}
+        onFocus={() => {
+          if (status !== "idle") {
+            setStatus("idle");
+            setStatusMessage("");
+          }
+        }}
+        onChange={(event) => {
+          setEmail(event.target.value);
+          if (status !== "idle") {
+            setStatus("idle");
+            setStatusMessage("");
+          }
+        }}
+        placeholder={statusMessage || "join the waitlist"}
+        className={`${originFont.className} absolute top-1/2 left-8 right-[28%] z-10 -translate-y-1/2 bg-transparent px-3 py-1 text-sm leading-[1.8] text-black focus:outline-none sm:left-12 sm:right-[24%] sm:px-4 sm:text-lg md:left-16 md:right-[22%] md:px-6 md:text-xl ${
+          status === "done"
+            ? "placeholder:text-green-600"
+            : status === "error"
+              ? "placeholder:text-red-500"
+              : "placeholder:text-gray-500"
+        }`}
       />
 
       <button
-        type="button"
+        type="submit"
         className="absolute right-1.5 top-1/2 z-20 -translate-y-1/2 cursor-pointer sm:right-3"
         onPointerEnter={onEnter}
         onPointerLeave={onLeave}
@@ -426,6 +505,6 @@ export function WaitlistInput() {
           className="h-auto w-[88px] sm:w-[130px] md:w-[168px]"
         />
       </button>
-    </div>
+    </form>
   );
 }
