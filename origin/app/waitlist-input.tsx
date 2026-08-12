@@ -50,6 +50,8 @@ export function WaitlistInput() {
   const finishedRef = useRef<HTMLVideoElement>(null);
   const reverseRef = useRef<HTMLVideoElement>(null);
   const hoveredRef = useRef(false);
+  const hoverCapableRef = useRef(false);
+  const tapCycleRef = useRef(false);
   const layerRef = useRef<Layer>("static");
   const playIdRef = useRef(0);
   const [layer, setLayer] = useState<Layer>("static");
@@ -137,6 +139,16 @@ export function WaitlistInput() {
         }
       });
     });
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const syncHover = () => {
+      hoverCapableRef.current = media.matches;
+    };
+    syncHover();
+    media.addEventListener("change", syncHover);
+    return () => media.removeEventListener("change", syncHover);
   }, []);
 
   useEffect(() => {
@@ -257,6 +269,7 @@ export function WaitlistInput() {
   }, []);
 
   const onEnter = () => {
+    if (!hoverCapableRef.current) return;
     hoveredRef.current = true;
 
     if (layerRef.current === "finished") {
@@ -276,6 +289,7 @@ export function WaitlistInput() {
   };
 
   const onLeave = () => {
+    if (!hoverCapableRef.current) return;
     hoveredRef.current = false;
 
     if (layerRef.current === "static" || layerRef.current === "reverse") {
@@ -303,10 +317,20 @@ export function WaitlistInput() {
     void playVideo("reverse", startAt);
   };
 
+  const onTap = () => {
+    if (hoverCapableRef.current) return;
+    if (layerRef.current !== "static") return;
+
+    tapCycleRef.current = true;
+    hoveredRef.current = true;
+    armReverse();
+    void playVideo("transition", 0);
+  };
+
   const isVisible = (name: Layer) => layer === name || under === name;
 
   return (
-    <div className="relative w-[720px]">
+    <div className="relative w-full max-w-[720px]">
       <Image
         src="/static input.png"
         alt="Input"
@@ -325,6 +349,12 @@ export function WaitlistInput() {
         disablePictureInPicture
         onEnded={() => {
           if (layerRef.current !== "transition") return;
+          if (tapCycleRef.current) {
+            tapCycleRef.current = false;
+            hoveredRef.current = false;
+            void playReverseImmediate();
+            return;
+          }
           if (!hoveredRef.current) return;
           void playVideo("finished", 0);
         }}
@@ -378,16 +408,23 @@ export function WaitlistInput() {
       <input
         type="text"
         placeholder="join the waitlist"
-        className={`${originFont.className} absolute top-1/2 left-16 right-0 z-10 -translate-y-1/2 bg-transparent px-6 py-2 text-xl leading-[1.8] text-black placeholder-gray-500 focus:outline-none`}
+        className={`${originFont.className} absolute top-1/2 left-8 right-[28%] z-10 -translate-y-1/2 bg-transparent px-3 py-1 text-sm leading-[1.8] text-black placeholder-gray-500 focus:outline-none sm:left-12 sm:right-[24%] sm:px-4 sm:text-lg md:left-16 md:right-0 md:px-6 md:text-xl`}
       />
 
       <button
         type="button"
-        className="absolute right-3 top-1/2 z-20 -translate-y-1/2 cursor-pointer"
-        onMouseEnter={onEnter}
-        onMouseLeave={onLeave}
+        className="absolute right-1.5 top-1/2 z-20 -translate-y-1/2 cursor-pointer sm:right-3"
+        onPointerEnter={onEnter}
+        onPointerLeave={onLeave}
+        onClick={onTap}
       >
-        <Image src="/rsvp button.png" alt="RSVP" width={168} height={70} />
+        <Image
+          src="/rsvp button.png"
+          alt="RSVP"
+          width={168}
+          height={70}
+          className="h-auto w-[88px] sm:w-[130px] md:w-[168px]"
+        />
       </button>
     </div>
   );
