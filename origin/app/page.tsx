@@ -1,18 +1,18 @@
 import Image from "next/image";
 import { originFont } from "./fonts";
-import { WaitlistInput } from "./waitlist-input";
+import { HeroWaitlist } from "./hero-waitlist";
 
 export default function Home() {
   return (
     <main className="overflow-x-clip bg-[#fff6ed]">
       <section className="relative z-10 min-h-[calc(100svh+1px)]">
         <div
-          className={`${originFont.className} absolute top-0 z-30 flex w-full flex-row items-center justify-between gap-2 px-3 py-3 text-sm leading-relaxed sm:px-4 sm:py-4 sm:text-lg md:text-xl`}
+          className={`${originFont.className} absolute top-0 z-30 flex w-full flex-row items-center justify-between gap-2 px-4 py-3 text-lg leading-relaxed sm:px-6 sm:py-4 sm:text-xl md:text-2xl`}
         >
-          <button className="cursor-pointer">origin</button>
-          <button className="cursor-pointer">about</button>
-          <button className="cursor-pointer">faq</button>
-          <div className="shrink-0">tbd apr &apos;27</div>
+          <button className="cursor-pointer hover:underline">origin</button>
+          <button className="cursor-pointer hover:underline">about</button>
+          <button className="cursor-pointer hover:underline">faq</button>
+          <div className="shrink-0 ">tbd apr &apos;27</div>
         </div>
 
         <Image
@@ -31,8 +31,8 @@ export default function Home() {
           className="absolute bottom-16 right-2 z-10 h-auto w-[200px] sm:-bottom-28 sm:right-6 sm:w-[320px] md:-bottom-40 md:right-10 md:w-[500px]"
         />
 
-        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-6 px-4">
-          <WaitlistInput />
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4">
+          <HeroWaitlist />
         </div>
       </section>
 
@@ -42,10 +42,10 @@ export default function Home() {
         className={`${originFont.className} relative z-20 flex flex-col items-start px-5 pt-10 sm:px-10 sm:pt-20`}
       >
         <h1 className="text-3xl font-bold sm:text-5xl md:text-6xl">
-          Hackathons are dead
+          Hackathons are DEAD!
         </h1>
-        <p className="mt-3 text-lg text-gray-600 sm:mt-4 sm:text-2xl">
-          Long live the hackathon!
+        <p className="mt-3 text-lg text-gray-600 sm:mt-4 sm:text-6xl">
+          The original intent of hackathons was to build community. However, nowadays, it seems like AI slop has taken over. That's why we started Origin, the first anti-AI-slop hackathon, focused on building with humans instead of AI
         </p>
       </section>
     </main>

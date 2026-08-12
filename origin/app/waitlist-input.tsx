@@ -384,7 +384,7 @@ export function WaitlistInput() {
 
   return (
     <form
-      className="relative w-full max-w-[720px]"
+      className="pointer-events-none relative w-full max-w-[720px]"
       onSubmit={onSubmit}
       noValidate
     >
@@ -481,7 +481,7 @@ export function WaitlistInput() {
           }
         }}
         placeholder={statusMessage || "join the waitlist"}
-        className={`${originFont.className} absolute top-1/2 left-8 right-[28%] z-10 -translate-y-1/2 bg-transparent px-3 py-1 text-sm leading-[1.8] text-black focus:outline-none sm:left-12 sm:right-[24%] sm:px-4 sm:text-lg md:left-16 md:right-[22%] md:px-6 md:text-xl ${
+        className={`${originFont.className} pointer-events-auto absolute top-1/2 left-8 right-[28%] z-10 -translate-y-1/2 bg-transparent px-3 py-1 text-sm leading-[1.8] text-black focus:outline-none sm:left-12 sm:right-[24%] sm:px-4 sm:text-lg md:left-16 md:right-[22%] md:px-6 md:text-xl ${
           status === "done"
             ? "placeholder:text-green-600"
             : status === "error"
@@ -492,7 +492,7 @@ export function WaitlistInput() {
 
       <button
         type="submit"
-        className="absolute right-1.5 top-1/2 z-20 -translate-y-1/2 cursor-pointer sm:right-3"
+        className="pointer-events-auto absolute right-1.5 top-1/2 z-20 -translate-y-1/2 cursor-pointer sm:right-3"
         onPointerEnter={onEnter}
         onPointerLeave={onLeave}
         onClick={onTap}
