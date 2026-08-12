@@ -4,8 +4,8 @@ import { WaitlistInput } from "./waitlist-input";
 
 export default function Home() {
   return (
-    <main className="overflow-x-hidden bg-[#fff6ed]">
-      <section className="relative z-10 min-h-dvh">
+    <main className="overflow-x-clip bg-[#fff6ed]">
+      <section className="relative z-10 min-h-[calc(100svh+1px)]">
         <div
           className={`${originFont.className} absolute top-0 z-30 flex w-full flex-row items-center justify-between gap-2 px-3 py-3 text-sm leading-relaxed sm:px-4 sm:py-4 sm:text-lg md:text-xl`}
         >
