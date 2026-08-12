@@ -38,9 +38,9 @@ export default function Home() {
 
       <div className="h-[380px]" aria-hidden />
 
-      <section className="relative z-20 flex flex-col items-start px-10 pt-20">
+      <section className={`${originFont.className} relative z-20 flex flex-col items-start px-10 pt-20`}>
         <h1 className="text-6xl font-bold">Hackathons are dead</h1>
-        <p className="mt-4 text-xl text-gray-600">Long live the hackathon!</p>
+        <p className="mt-4 text-2xl text-gray-600">Long live the hackathon!</p>
       </section>
     </main>
   );
