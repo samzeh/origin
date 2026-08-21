@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Butterflies } from "./butterflies";
 import { originFont } from "./fonts";
 import { HeroWaitlist } from "./hero-waitlist";
 
@@ -30,6 +31,8 @@ export default function Home() {
           height={500}
           className="absolute bottom-16 right-2 z-10 h-auto w-[200px] sm:-bottom-28 sm:right-6 sm:w-[320px] md:-bottom-40 md:right-10 md:w-[500px]"
         />
+
+        <Butterflies />
 
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4">
           <HeroWaitlist />

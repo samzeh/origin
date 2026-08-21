@@ -129,16 +129,25 @@ export function WaitlistInput() {
 
   const showStatic = useCallback(() => {
     playIdRef.current += 1;
-    const from = layerRef.current;
     layerRef.current = "static";
-    setUnder(from === "static" ? null : from);
+    // Hide every video first. Seeking reverse/transition to 0 while they are
+    // still the under layer flashes their bright opening frames.
+    setUnder(null);
     setLayer("static");
+
+    const reverse = reverseRef.current;
+    const transition = transitionRef.current;
+    const finished = finishedRef.current;
+    reverse?.pause();
+    transition?.pause();
+    finished?.pause();
+
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        setUnder(null);
-        reverseRef.current?.pause();
         try {
-          if (reverseRef.current) reverseRef.current.currentTime = 0;
+          if (reverse) reverse.currentTime = 0;
+          if (transition) transition.currentTime = 0;
+          if (finished) finished.currentTime = 0;
         } catch {
           /* hidden reset */
         }
@@ -453,6 +462,18 @@ export function WaitlistInput() {
         disablePictureInPicture
         onEnded={() => {
           if (layerRef.current !== "reverse") return;
+          const reverse = reverseRef.current;
+          // Freeze on the last frame so the browser can't flash frame 0.
+          if (reverse) {
+            reverse.pause();
+            try {
+              if (Number.isFinite(reverse.duration) && reverse.duration > 0) {
+                reverse.currentTime = Math.max(0, reverse.duration - 0.04);
+              }
+            } catch {
+              /* ignore */
+            }
+          }
           if (hoveredRef.current) {
             void playVideo("transition", 0);
             return;
