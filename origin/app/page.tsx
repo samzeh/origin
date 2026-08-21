@@ -51,6 +51,50 @@ export default function Home() {
           The original intent of hackathons was to build community. However, nowadays, it seems like AI slop has taken over. That's why we started Origin, the first anti-AI-slop hackathon, focused on building with humans instead of AI
         </p>
       </section>
+
+      <section
+          className={`${originFont.className} relative z-20 flex flex-col items-start px-5 pb-20 pt-20 sm:px-10 sm:pb-32 sm:pt-32`}
+      >
+        <h2 className="text-4xl font-bold sm:text-6xl md:text-7xl">
+          faq
+        </h2>
+        <div className="mt-10 w-full border-t border-black sm:mt-16">
+          <details className="group border-b border-black py-7 sm:py-10">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-8 text-2xl font-bold sm:text-4xl md:text-5xl [&::-webkit-details-marker]:hidden">
+              <span>What is Origin?</span>
+
+              <span
+                className="shrink-0 text-2xl transition-transform duration-300 group-open:rotate-180 sm:text-3xl md:text-4xl"
+                aria-hidden="true"
+            >
+              ↓
+            </span>
+            </summary>
+
+            <p className="mt-6 max-w-4xl text-xl leading-relaxed text-gray-600 sm:mt-8 sm:text-3xl md:text-4xl">
+              Origin is a hackathon focused on building with humans instead of AI.
+            </p>
+          </details>
+
+          <details className="group border-b border-black py-7 sm:py-10">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-8 text-2xl font-bold sm:text-4xl md:text-5xl [&::-webkit-details-marker]:hidden">
+              <span>What is Origin?</span>
+
+              <span
+                className="shrink-0 text-2xl transition-transform duration-300 group-open:rotate-180 sm:text-3xl md:text-4xl"
+                aria-hidden="true"
+              >
+                ↓
+              </span>
+            </summary>
+
+            <p className="mt-6 max-w-4xl text-xl leading-relaxed text-gray-600 sm:mt-8 sm:text-3xl md:text-4xl">
+              Origin is a hackathon focused on building with humans instead of AI.
+            </p>
+          </details>
+        </div>
+      </section>
+
     </main>
   );
 }
