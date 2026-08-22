@@ -8,14 +8,16 @@ export function HeroWaitlist() {
   const [showDefinition, setShowDefinition] = useState(false);
 
   return (
-    <div className={`${originFont.className} relative w-full max-w-[720px]`}>
+    <div
+      className={`${originFont.className} pointer-events-none relative w-full max-w-[720px]`}
+    >
       <div className="pointer-events-none relative z-50">
         <WaitlistInput />
       </div>
 
       <button
         type="button"
-        className="absolute top-[28%] left-[10%] cursor-pointer text-left text-xl leading-none sm:text-2xl md:text-3xl"
+        className="pointer-events-auto absolute top-[28%] left-[10%] cursor-pointer text-left text-xl leading-none sm:text-2xl md:text-3xl"
         onMouseEnter={() => setShowDefinition(true)}
         onMouseLeave={() => setShowDefinition(false)}
         onFocus={() => setShowDefinition(true)}
@@ -33,7 +35,9 @@ export function HeroWaitlist() {
 
       <div
         className={`absolute top-[62%] left-[11%] z-10 w-[82%] text-left leading-relaxed transition-opacity duration-300 ${
-          showDefinition ? "opacity-100" : "pointer-events-none opacity-0"
+          showDefinition
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
         }`}
         aria-hidden={!showDefinition}
       >
