@@ -50,6 +50,7 @@ export function GrassGarden() {
   const overlayRef = useRef<HTMLDivElement>(null);
   const nextId = useRef(0);
   const wateringTimer = useRef<number | null>(null);
+  const plantingRef = useRef(false);
   const [inPlantZone, setInPlantZone] = useState(false);
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
   const [cursorMode, setCursorMode] = useState<CursorMode>("can");
@@ -115,7 +116,7 @@ export function GrassGarden() {
 
   const onClick = useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
-      if (!isPlantZone(event.clientY)) return;
+      if (!isPlantZone(event.clientY) || plantingRef.current) return;
 
       const area = areaRef.current;
       if (!area) return;
@@ -126,6 +127,7 @@ export function GrassGarden() {
       const id = nextId.current++;
       const color = pickFlowerColor();
 
+      plantingRef.current = true;
       setFlowers((prev) => [
         ...prev,
         { id, x, y, color, stage: "sprout" },
@@ -137,6 +139,7 @@ export function GrassGarden() {
             flower.id === id ? { ...flower, stage: "bloom" } : flower,
           ),
         );
+        plantingRef.current = false;
       }, PSFLOWER_MS);
 
       setCursorMode("watering");
