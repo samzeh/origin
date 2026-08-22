@@ -15,13 +15,12 @@ export default function Home() {
           <button className="cursor-pointer hover:underline">faq</button>
           <div className="shrink-0 ">tbd apr &apos;27</div>
         </div>
-
         <Image
-          src="/grass.gif"
+          src="/grass animation.gif"
           alt="grass"
           width={2000}
           height={918}
-          className="absolute bottom-[-160px] left-1/2 z-0 h-auto w-[1100px] max-w-none -translate-x-1/2 sm:bottom-[-260px] sm:w-[1600px] md:bottom-[-380px] md:w-[2000px]"
+          className="absolute bottom-[100px] left-1/2 z-0 h-auto w-[1100px] max-w-none -translate-x-1/2 sm:bottom-0 sm:w-[1600px] md:bottom-[-100px] md:w-[2000px]"
         />
 
         <Image
@@ -29,7 +28,7 @@ export default function Home() {
           alt="picnic"
           width={500}
           height={500}
-          className="absolute bottom-16 right-2 z-10 h-auto w-[200px] sm:-bottom-28 sm:right-6 sm:w-[320px] md:-bottom-40 md:right-10 md:w-[500px]"
+          className="absolute bottom-28 right-2 z-10 h-auto w-[200px] sm:-bottom-16 sm:right-6 sm:w-[320px] md:-bottom-32 md:right-10 md:w-[500px]"
         />
 
         <Butterflies />
@@ -39,7 +38,7 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="h-[160px] sm:h-[260px] md:h-[380px]" aria-hidden />
+      <div className="h-[-10px] sm:h-[50px] md:h-[150px]" aria-hidden />
 
       <section
         className={`${originFont.className} relative z-20 flex flex-col items-start px-5 pt-10 sm:px-10 sm:pt-20`}
